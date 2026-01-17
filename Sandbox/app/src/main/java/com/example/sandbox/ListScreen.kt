@@ -24,13 +24,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sandbox.ui.theme.SandboxTheme
-import kotlin.Unit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
-    onNavigateToList: () -> Unit
-) {
+fun ListScreen(onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -58,8 +55,8 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
     ) { innerPadding ->
-        HomeScreenContents(
-            onNavigateToList = onNavigateToList,
+        ListScreenContents(
+            onBack = onBack,
             modifier = Modifier
                 .padding(paddingValues = innerPadding)
         )
@@ -67,8 +64,8 @@ fun HomeScreen(
 }
 
 @Composable
-fun HomeScreenContents(
-    onNavigateToList: () -> Unit,
+fun ListScreenContents(
+    onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -79,24 +76,24 @@ fun HomeScreenContents(
     ) {
         Spacer(modifier = Modifier.padding(all = 4.dp))
 
-        HomeScreenHeader()
+        ListScreenHeader()
 
         Spacer(modifier = Modifier.padding(all = 4.dp))
 
-        HomeScreenBody(
-            onNavigateToList = onNavigateToList
+        ListScreenBody()
+
+        Spacer(modifier = Modifier.padding(all = 4.dp))
+
+        ListScreenFooter(
+            onBack = onBack
         )
-
-        Spacer(modifier = Modifier.padding(all = 4.dp))
-
-        HomeScreenFooter()
 
         Spacer(modifier = Modifier.padding(all = 4.dp))
     }
 }
 
 @Composable
-fun HomeScreenHeader() {
+fun ListScreenHeader() {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -108,7 +105,7 @@ fun HomeScreenHeader() {
             .fillMaxWidth()
     ) {
         Text(
-            text = "ポケモン図鑑",
+            text = "リスト",
             style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.Black,
             modifier = Modifier
@@ -118,73 +115,28 @@ fun HomeScreenHeader() {
 }
 
 @Composable
-fun HomeScreenBody(
-    onNavigateToList: () -> Unit,
-) {
+fun ListScreenBody() {
     Column(
         modifier = Modifier
     ) {
-        Box(
-            modifier = Modifier
-        ) {
-            Button(
-                onClick = {
-                    onNavigateToList()
-                },
-                modifier = Modifier
-                    .padding(all = 16.dp)
-                    .fillMaxWidth()
-            ) {
-               Text(
-                   text = "Button 1"
-               )
-            }
-        }
-
-        Box(
-            modifier = Modifier
-        ) {
-            Button(
-                onClick = {
-                    println("tap 1")
-                },
-                modifier = Modifier
-                    .padding(all = 16.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = "Button 2"
-                )
-            }
-        }
+        Text(
+            text = "リスト",
+        )
     }
 }
 
 @Composable
-fun HomeScreenFooter() {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+fun ListScreenFooter(
+    onBack: () -> Unit
+) {
+    Box(
         modifier = Modifier
     ) {
-        Box(
-            modifier = Modifier
+        Button(
+            onClick = onBack
         ) {
             Text(
-                text = "version : 0.1",
-                style = MaterialTheme.typography.labelSmall,
-                color = Color.Gray,
-                modifier = Modifier
-            )
-        }
-
-        Box(
-            modifier = Modifier
-        ) {
-            Text(
-                text = "copyright : Mitsuhiko Hashiguchi",
-                style = MaterialTheme.typography.labelSmall,
-                color = Color.Gray,
+                text = "戻る",
                 modifier = Modifier
             )
         }
@@ -193,10 +145,10 @@ fun HomeScreenFooter() {
 
 @Preview(showBackground = true)
 @Composable
-fun HomeScreenPreview() {
+fun ListScreenPreview() {
     SandboxTheme {
-        HomeScreen(
-            onNavigateToList = { }
+        ListScreen(
+            onBack = { }
         )
     }
 }
