@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,12 +19,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.sandbox.ui.theme.SandboxTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,16 +52,26 @@ fun ListScreen(onBack: () -> Unit) {
                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                 contentColor = MaterialTheme.colorScheme.tertiary
             ) {
-                Text(
-                    text = "bottom app bar"
-                )
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Button(
+                        onClick = onBack
+                    ) {
+                        Text(
+                            text = "戻る",
+                            modifier = Modifier
+                        )
+                    }
+                }
             }
         },
         modifier = Modifier
             .fillMaxSize()
     ) { innerPadding ->
         ListScreenContents(
-            onBack = onBack,
             modifier = Modifier
                 .padding(paddingValues = innerPadding)
         )
@@ -65,7 +80,6 @@ fun ListScreen(onBack: () -> Unit) {
 
 @Composable
 fun ListScreenContents(
-    onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -84,9 +98,7 @@ fun ListScreenContents(
 
         Spacer(modifier = Modifier.padding(all = 4.dp))
 
-        ListScreenFooter(
-            onBack = onBack
-        )
+        ListScreenFooter()
 
         Spacer(modifier = Modifier.padding(all = 4.dp))
     }
@@ -115,31 +127,40 @@ fun ListScreenHeader() {
 }
 
 @Composable
-fun ListScreenBody() {
+fun ListScreenBody(
+    viewModel: UserViewModel = hiltViewModel()
+) {
+    val userList by viewModel.allUsers.collectAsState(initial = emptyList())
+
     Column(
         modifier = Modifier
     ) {
-        Text(
-            text = "リスト",
-        )
+        // 保存されたデータのリストを表示
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            items(
+                items = userList
+            ) { user ->
+                Text(
+                    text = "ID: ${user.id} - ${user.name}",
+                    modifier = Modifier.padding(all = 8.dp)
+                )
+            }
+        }
     }
 }
 
 @Composable
-fun ListScreenFooter(
-    onBack: () -> Unit
-) {
+fun ListScreenFooter() {
     Box(
         modifier = Modifier
     ) {
-        Button(
-            onClick = onBack
-        ) {
-            Text(
-                text = "戻る",
-                modifier = Modifier
-            )
-        }
+        Text(
+            text = "Footer",
+            modifier = Modifier
+        )
     }
 }
 

@@ -25,11 +25,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sandbox.ui.theme.SandboxTheme
 import kotlin.Unit
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onNavigateToList: () -> Unit
+    onNavigateToList: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -120,6 +121,7 @@ fun HomeScreenHeader() {
 @Composable
 fun HomeScreenBody(
     onNavigateToList: () -> Unit,
+    viewModel: UserViewModel = hiltViewModel()
 ) {
     Column(
         modifier = Modifier
@@ -136,7 +138,7 @@ fun HomeScreenBody(
                     .fillMaxWidth()
             ) {
                Text(
-                   text = "Button 1"
+                   text = "リストの表示"
                )
             }
         }
@@ -146,14 +148,14 @@ fun HomeScreenBody(
         ) {
             Button(
                 onClick = {
-                    println("tap 1")
+                    viewModel.insertUser()
                 },
                 modifier = Modifier
                     .padding(all = 16.dp)
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = "Button 2"
+                    text = "データの初期化"
                 )
             }
         }
