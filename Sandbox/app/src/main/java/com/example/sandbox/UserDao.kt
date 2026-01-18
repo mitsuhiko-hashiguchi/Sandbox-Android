@@ -12,4 +12,7 @@ interface UserDao {
 
     @Query("SELECT * FROM users ORDER BY id DESC")
     fun getAllUsers(): Flow<List<User>>
+
+    @Query("DELETE FROM users")
+    suspend fun deleteAllUsers()
 }

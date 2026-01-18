@@ -155,7 +155,24 @@ fun HomeScreenBody(
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = "データの初期化"
+                    text = "データの追加"
+                )
+            }
+        }
+
+        Box(
+            modifier = Modifier
+        ) {
+            Button(
+                onClick = {
+                    viewModel.clearAllUsers()
+                },
+                modifier = Modifier
+                    .padding(all = 16.dp)
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = "データの削除"
                 )
             }
         }

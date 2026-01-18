@@ -21,4 +21,10 @@ class UserViewModel @Inject constructor(
             userDao.insert(newUser)
         }
     }
+
+    fun clearAllUsers() {
+        viewModelScope.launch {
+            userDao.deleteAllUsers()
+        }
+    }
 }
