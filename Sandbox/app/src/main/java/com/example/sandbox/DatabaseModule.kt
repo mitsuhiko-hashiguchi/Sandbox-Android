@@ -27,4 +27,9 @@ object DatabaseModule {
     fun provideUserDao(database: AppDatabase): UserDao {
         return database.userDao()
     }
+
+    @Provides
+    fun providePokemonDao(database: AppDatabase): PokemonDao {
+        return database.pokemonDao()
+    }
 }

@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -103,7 +104,7 @@ fun HomeScreenHeader() {
         modifier = Modifier
             .padding(all = 16.dp)
             .background(
-                color = Color.LightGray,
+                color = Color.DarkGray,
                 shape = MaterialTheme.shapes.medium
             )
             .fillMaxWidth()
@@ -111,6 +112,7 @@ fun HomeScreenHeader() {
         Text(
             text = "ポケモン図鑑",
             style = MaterialTheme.typography.headlineLarge,
+            color = Color.White,
             fontWeight = FontWeight.Black,
             modifier = Modifier
                 .padding(all = 16.dp)
@@ -121,8 +123,11 @@ fun HomeScreenHeader() {
 @Composable
 fun HomeScreenBody(
     onNavigateToList: () -> Unit,
-    viewModel: UserViewModel = hiltViewModel()
+    userViewModel: UserViewModel = hiltViewModel(),
+    pokemonViewModel: PokemonViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier
     ) {
@@ -148,7 +153,19 @@ fun HomeScreenBody(
         ) {
             Button(
                 onClick = {
-                    viewModel.insertUser()
+                    userViewModel.insertUser()
+
+                    pokemonViewModel.insert(pNumber = 1, pContext = context)
+                    pokemonViewModel.insert(pNumber = 2, pContext = context)
+                    pokemonViewModel.insert(pNumber = 3, pContext = context)
+                    pokemonViewModel.insert(pNumber = 4, pContext = context)
+                    pokemonViewModel.insert(pNumber = 5, pContext = context)
+                    pokemonViewModel.insert(pNumber = 6, pContext = context)
+                    pokemonViewModel.insert(pNumber = 7, pContext = context)
+                    pokemonViewModel.insert(pNumber = 8, pContext = context)
+                    pokemonViewModel.insert(pNumber = 9, pContext = context)
+                    pokemonViewModel.insert(pNumber = 25, pContext = context)
+                    pokemonViewModel.insert(pNumber = 26, pContext = context)
                 },
                 modifier = Modifier
                     .padding(all = 16.dp)
@@ -165,7 +182,8 @@ fun HomeScreenBody(
         ) {
             Button(
                 onClick = {
-                    viewModel.clearAllUsers()
+                    userViewModel.clearAllUsers()
+                    pokemonViewModel.clearAllPokemons()
                 },
                 modifier = Modifier
                     .padding(all = 16.dp)
